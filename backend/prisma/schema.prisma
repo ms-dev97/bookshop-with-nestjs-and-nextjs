@@ -15,4 +15,41 @@ model User {
   isAdmin   Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  Order     Order[]
+}
+
+model Book {
+  id        BigInt       @id @default(autoincrement())
+  name      String
+  content   String?
+  isbn      String?
+  price     Int
+  authors   AuthorBook[]
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+}
+
+model Author {
+  id        BigInt       @id @default(autoincrement())
+  name      String
+  books     AuthorBook[]
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+}
+
+model AuthorBook {
+  author    Author @relation(fields: [author_id], references: [id])
+  author_id BigInt
+  book      Book   @relation(fields: [book_id], references: [id])
+  book_id   BigInt
+
+  @@id([author_id, book_id])
+}
+
+model Order {
+  id          BigInt  @id @default(autoincrement())
+  total_price Int
+  user        User    @relation(fields: [user_id], references: [id])
+  user_id     BigInt
+  is_paid     Boolean @default(false)
 }
