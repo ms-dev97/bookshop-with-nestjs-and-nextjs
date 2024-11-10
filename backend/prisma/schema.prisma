@@ -19,31 +19,22 @@ model User {
 }
 
 model Book {
-  id        BigInt       @id @default(autoincrement())
-  name      String
-  content   String?
-  isbn      String?
-  price     Int
-  authors   AuthorBook[]
-  createdAt DateTime     @default(now())
-  updatedAt DateTime     @updatedAt
+  id         BigInt       @id @default(autoincrement())
+  name       String
+  content    String?
+  isbn       String?
+  price      Int
+  authors    Author[]
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
 }
 
 model Author {
-  id        BigInt       @id @default(autoincrement())
-  name      String
-  books     AuthorBook[]
-  createdAt DateTime     @default(now())
-  updatedAt DateTime     @updatedAt
-}
-
-model AuthorBook {
-  author    Author @relation(fields: [author_id], references: [id])
-  author_id BigInt
-  book      Book   @relation(fields: [book_id], references: [id])
-  book_id   BigInt
-
-  @@id([author_id, book_id])
+  id         BigInt       @id @default(autoincrement())
+  name       String
+  books      Book[]
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
 }
 
 model Order {
