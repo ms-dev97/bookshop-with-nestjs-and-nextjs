@@ -7,10 +7,17 @@ import { DatabaseService } from 'src/database/database.service';
 export class BooksService {
 	constructor(private readonly databaseService: DatabaseService) {}
 
-	async create(createBookDto: Prisma.BookCreateInput) {
-		await this.databaseService.book.create({
-			data: createBookDto,
+	async create(
+		createBookDto: Prisma.BookCreateInput & { authorIds: number[] },
+	) {
+		const { authorIds, ...data } = createBookDto;
+		const book = await this.databaseService.book.create({
+			data: {
+				...data,
+				authors: { connect: authorIds.map((id) => ({ id })) },
+			},
 		});
+
 		return createdResponse('Book created successfully.');
 	}
 
