@@ -20,7 +20,7 @@ export class BooksController {
 
 	@Post()
 	@UseGuards(AuthGuard)
-	create(@Body(ParsePricePipe) createBookDto: Prisma.BookCreateInput) {
+	create(@Body(ParsePricePipe) createBookDto: Prisma.BookCreateInput & {authorIds: number[]}) {
 		return this.booksService.create(createBookDto);
 	}
 
